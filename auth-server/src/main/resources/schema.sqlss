@@ -1,0 +1,102 @@
+
+create table  oauth_client_details (
+  client_id varchar(255) not null,
+  client_secret varchar(255) not null,
+  web_server_redirect_uri varchar(2048) ,
+  scope varchar(255) ,
+  access_token_validity int ,
+  refresh_token_validity int ,
+  resource_ids varchar(1024) ,
+  authorized_grant_types varchar(1024) ,
+  authorities varchar(1024) ,
+  additional_information varchar(4096) ,
+  autoapprove varchar(255) ,
+  primary key (client_id)
+) ;
+
+create table  permission (
+  id int not null ,
+  name varchar(512) unique,
+  primary key (id)
+);
+
+create table role (
+  id int not null ,
+  name varchar(255) unique ,
+  primary key (id)
+);
+
+create table "user" (
+  id int not null ,
+  username varchar(100) unique not null,
+  password varchar(1024) not null,
+  email varchar(1024) unique not null,
+  enabled boolean not null,
+  account_Non_Expired boolean not null,
+  credentials_Non_Expired boolean not null,
+  account_Non_Locked boolean   not null,
+  primary key (id)
+);
+
+
+create table  permission_role (
+  permission_id int ,
+  role_id int ,
+  constraint permission_role_ibfk_1 foreign key (permission_id) references permission (id),
+  constraint permission_role_ibfk_2 foreign key (role_id) references role (id)
+);
+
+
+
+create table role_user (
+  role_id int  ,
+  user_id int  ,
+  constraint role_user_ibfk_1 foreign key (role_id) references role (id),
+  constraint role_user_ibfk_2 foreign key (user_id) references "user" (id)
+);
+
+-- token store
+create table oauth_client_token (
+  token_id VARCHAR(256),
+  token VARCHAR,
+  authentication_id VARCHAR(256) PRIMARY KEY,
+  user_name VARCHAR(256),
+  client_id VARCHAR(256)
+);
+
+create table oauth_access_token (
+  token_id VARCHAR(256),
+  token VARCHAR,
+  authentication_id VARCHAR(256) PRIMARY KEY,
+  user_name VARCHAR(256),
+  client_id VARCHAR(256),
+  authentication VARCHAR,
+  refresh_token VARCHAR(256)
+);
+
+create table oauth_refresh_token (
+  token_id VARCHAR(256),
+  token VARCHAR,
+  authentication VARCHAR
+);
+
+create table oauth_code (
+  code VARCHAR(256), authentication VARCHAR
+);
+
+create table oauth_approvals (
+	userId VARCHAR(256),
+	clientId VARCHAR(256),
+	scope VARCHAR(256),
+	status VARCHAR(10),
+	expiresAt TIMESTAMP,
+	lastModifiedAt TIMESTAMP
+);
+
+
+
+
+
+
+
+

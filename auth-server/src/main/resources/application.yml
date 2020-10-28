@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  
+myapp:
+  keystore:
+    name: keystore.jks
+    pass: password
+  key:
+    name: oauth
+    pass: password
+
+
+
+ 
